@@ -1,10 +1,51 @@
-# Capablanca — III Chess Challenge (ICEV 2026)
+# Capablanca — engine de xadrez para o III Chess Challenge (ICEV 2026)
 
-Equipe: Marcos Paulo, Junio, Léo.
+Programa de linha de comando que desenvolvi, junto com minha equipe, para disputar o
+**III Chess Challenge do ICEV**, em 2026. O **Stockfish** calcula os lances e o nosso código cuida de
+todo o resto — relógio, book de aberturas, tablebases, log, comandos de emergência — e, principalmente,
+da **gestão de tempo própria** (`tempo.py`), que é a modificação significativa exigida pelo regulamento.
 
-Programa de linha de comando para jogar o torneio: o **Stockfish** calcula os lances e o nosso
-código cuida do resto (relógio, book, tablebases, log, comandos de emergência) e, principalmente,
-da **gestão de tempo própria** (`tempo.py`), que é a nossa modificação significativa.
+O programa roda **100% offline**: durante as partidas não há rede, API nem consulta externa.
+
+**Stack:** Python 3.11+ · Stockfish 19 (UCI) · python-chess · pytest
+
+## O que ele faz
+
+- Joga uma partida oficial no terminal, com relógio real (`15+10`, `25+0`, armageddon) e desconto do
+  atraso humano de quem opera o tabuleiro físico
+- **Gestão de tempo própria**: alvo e máximo por lance, parada em tempo real, modo economia,
+  sincronização com o relógio da mesa
+- **Book de aberturas** gerado por nós até o meio-lance 10, e **tablebases Syzygy** de 3 a 5 peças
+- **Comandos de emergência** para corrigir lance errado, recarregar posição por FEN e acertar o relógio
+- **Reinício automático do motor** com watchdog, e modo manual se ele não voltar
+- **Visualizador no navegador** para assistir o bot jogando, com barra de avaliação, linha principal e
+  gráfico — usado em teste e na apresentação
+- **Simulador de confrontos** que joga partidas automáticas entre cinco versões do motor para calibrar
+  a gestão de tempo
+- Suíte de testes com `pytest`
+
+## Minha contribuição
+
+**34 dos 45 commits** do projeto (+13.322 / −346 linhas). Criei a estrutura inicial e desenvolvi
+principalmente:
+
+| Parte | O que é |
+|---|---|
+| `partida.py` | Laço da partida, leitura e validação de lances em UCI, comandos de emergência, relógio interno, reinício do motor e watchdog |
+| `ferramentas/assistir.py` + `assistir.html` | Visualizador no navegador: jogar contra o bot, bot contra bot, barra de avaliação e gráfico |
+| `log.py` | Log por lance com 8 campos e geração do PGN |
+| `testes/` | Suíte de testes e `testes/torneio.py`, o simulador de partidas |
+
+A tabela de responsáveis logo abaixo é a divisão usada **na arguição**, em que cada integrante defende
+um módulo perante a banca.
+
+## Equipe
+
+Projeto acadêmico em grupo, desenvolvido com **Marcos Paulo**, **Junio** e **Léo**.
+O repositório original da equipe fica em
+[marcospauloreisaraujo990/iii-chess-challenge](https://github.com/marcospauloreisaraujo990/iii-chess-challenge).
+
+---
 
 ## Projeto-base declarado
 - Motor: Stockfish 19 (local, via UCI). Release `sf_19` (05/09/2026), arquivo
